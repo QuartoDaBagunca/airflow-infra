@@ -1,0 +1,58 @@
+## Airflow dag parameters
+##
+git:
+  ## Bitnami Git image version
+  ## ref: https://hub.docker.com/r/bitnami/git/tags/
+  ## @param git.image.registry Git image registry
+  ## @param git.image.repository Git image repository
+  ## @param git.image.tag Git image tag (immutable tags are recommended)
+  ## @param git.image.pullPolicy Git image pull policy
+  ## @param git.image.pullSecrets Git image pull secrets
+  image:
+    registry: docker.io
+    repository: bitnami/git
+    tag: 2.35.1-debian-10-r62
+    ## Specify a imagePullPolicy
+    ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+    ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+    ##
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ## e.g:
+    ## pullSecrets:
+    ##   - myRegistryKeySecretName
+    ##
+    pullSecrets: []
+  ## Get DAG files from git repositories
+  ## @param git.dags.enabled Enable in order to download DAG files from git repositories.
+  ## @param git.dags.repositories [array] Array of repositories from which to download DAG files
+  dags:
+    enabled: true
+    ## Name for repositories can be anything unique and must follow same naming conventions as kubernetes.
+    ## Kubernetes resources can have names up to 253 characters long. The characters allowed in names are:
+    ## digits (0-9), lower case letters (a-z), -, and .
+    ## Example:
+    ##   - repository: https://github.com/myuser/myrepo
+    ##     branch: main
+    ##     name: my-dags
+    ##     path: /
+    repositories:
+      - repository: "https://github.com/QuartoDaBagunca/dags.git"
+        ## Branch from repository to checkout
+        ##
+        branch: "main"
+        ## An unique identifier for repository, must be unique for each repository
+        ##
+        name: ""
+        ## Path to a folder in the repository containing the dags
+        ##
+        path: ""
+
+## Airflow service parameters
+##
+service:
+#   ## @param service.type Airflow service type
+#   ##
+   type: NodePort
